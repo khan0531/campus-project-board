@@ -2,12 +2,9 @@ package com.campus.projectboard.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.campus.projectboard.domain.Article;
-import com.campus.projectboard.domain.ArticleComment;
 import com.campus.projectboard.domain.UserAccount;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +14,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @DisplayName("JPA 연결 테스트")
