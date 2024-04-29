@@ -109,6 +109,10 @@ public class ArticleService {
     hashtagIds.forEach(hashtagService::deleteHashtagWithoutArticles);
   }
 
+  public long getArticleCount() {
+    return articleRepository.count();
+  }
+
   private Set<Hashtag> renewHashtagsFromContent(String content) {
     Set<String> hashtagNamesInContent = hashtagService.parseHashtagNames(content);
     Set<Hashtag> hashtags = hashtagService.findHashtagsByNames(hashtagNamesInContent);
