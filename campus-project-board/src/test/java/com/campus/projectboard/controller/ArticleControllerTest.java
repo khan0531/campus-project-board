@@ -12,8 +12,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.campus.projectboard.dto.ArticleDto;
+import com.campus.projectboard.dto.ArticleWithCommentsDto;
+import com.campus.projectboard.dto.HashtagDto;
+import com.campus.projectboard.dto.UserAccountDto;
 import com.campus.projectboard.service.ArticleService;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -51,5 +57,42 @@ class ArticleControllerTest {
   }
 
 
+  private ArticleDto createArticleDto() {
+    return ArticleDto.of(
+        createUserAccountDto(),
+        "title",
+        "content",
+        Set.of(HashtagDto.of("java"))
+    );
+  }
+
+  private ArticleWithCommentsDto createArticleWithCommentsDto() {
+    return ArticleWithCommentsDto.of(
+        1L,
+        createUserAccountDto(),
+        Set.of(),
+        "title",
+        "content",
+        Set.of(HashtagDto.of("java")),
+        LocalDateTime.now(),
+        "uno",
+        LocalDateTime.now(),
+        "uno"
+    );
+  }
+
+  private UserAccountDto createUserAccountDto() {
+    return UserAccountDto.of(
+        "uno",
+        "pw",
+        "uno@mail.com",
+        "Uno",
+        "memo",
+        LocalDateTime.now(),
+        "uno",
+        LocalDateTime.now(),
+        "uno"
+    );
+  }
 
 }
