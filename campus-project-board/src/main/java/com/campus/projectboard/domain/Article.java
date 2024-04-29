@@ -1,5 +1,6 @@
 package com.campus.projectboard.domain;
 
+import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,37 +16,50 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @ToString(callSuper = true)
 @Table(indexes = {
     @Index(columnList = "title"),
-    @Index(columnList = "hashtag"),
     @Index(columnList = "createdAt"),
     @Index(columnList = "createdBy")
 })
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Article extends AuditingFields {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Setter @Column(nullable = false)private String title; // 제목
+  @Setter
+  @JoinColumn(name = "userId")
+  @ManyToOne(optional = false)
+  private UserAccount userAccount; // 유저 정보 (ID)
+
+  @Setter @Column(nullable = false) private String title; // 제목
   @Setter @Column(nullable = false, length = 10000) private String content; // 본문
 
-  private String hashtag; // 해시태크
+//  @ToString.Exclude
+//  @JoinTable(
+//      name = "article_hashtag",
+//      joinColumns = @JoinColumn(name = "articleId"),
+//      inverseJoinColumns = @JoinColumn(name = "hashtagId")
+//  )
+//  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//  private Set<Hashtag> hashtags = new LinkedHashSet<>();
 
-  @ToString.Exclude // ArticleComment 와 양방향 참조
-  @OrderBy("id")
+
+  @ToString.Exclude
+  @OrderBy("createdAt DESC")
   @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
   private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
+
   protected Article() {}
 
-  private Article(String title, String content, String hashtag) {
+  private Article(UserAccount userAccount, String title, String content) {
+    this.userAccount = userAccount;
     this.title = title;
     this.content = content;
-    this.hashtag = hashtag;
   }
 
-  public static Article of(String title, String content, String hashtag) {
-    return new Article(title, content, hashtag);
+  public static Article of(UserAccount userAccount, String title, String content) {
+    return new Article(userAccount, title, content);
   }
 
   @Override
@@ -59,4 +73,5 @@ public class Article extends AuditingFields {
   public int hashCode() {
     return Objects.hash(this.getId());
   }
+
 }

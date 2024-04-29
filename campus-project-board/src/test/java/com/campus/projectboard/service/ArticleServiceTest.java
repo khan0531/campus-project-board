@@ -40,4 +40,5 @@ class ArticleServiceTest {
     assertThat(articles).isEmpty();
     then(articleRepository).should().findAll(pageable);
   }
+
 }
