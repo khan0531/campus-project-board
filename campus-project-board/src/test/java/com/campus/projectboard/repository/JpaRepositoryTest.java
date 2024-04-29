@@ -2,6 +2,8 @@ package com.campus.projectboard.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.campus.projectboard.domain.Article;
+import com.campus.projectboard.domain.ArticleComment;
 import com.campus.projectboard.domain.UserAccount;
 import java.util.List;
 import java.util.Optional;
