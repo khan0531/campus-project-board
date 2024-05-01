@@ -10,6 +10,7 @@ import com.campus.projectboard.repository.ArticleRepository;
 import com.campus.projectboard.repository.HashtagRepository;
 import com.campus.projectboard.repository.UserAccountRepository;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
@@ -63,6 +64,7 @@ public class ArticleService {
         .map(ArticleDto::from)
         .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
   }
+
   public void saveArticle(ArticleDto dto) {
     UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
     Set<Hashtag> hashtags = renewHashtagsFromContent(dto.content());
@@ -113,6 +115,21 @@ public class ArticleService {
     return articleRepository.count();
   }
 
+  @Transactional(readOnly = true)
+  public Page<ArticleDto> searchArticlesViaHashtag(String hashtagName, Pageable pageable) {
+    if (hashtagName == null || hashtagName.isBlank()) {
+      return Page.empty(pageable);
+    }
+
+    return articleRepository.findByHashtagNames(List.of(hashtagName), pageable)
+        .map(ArticleDto::from);
+  }
+
+  public List<String> getHashtags() {
+    return hashtagRepository.findAllHashtagNames(); // TODO: HashtagService 로 이동을 고려해보자.
+  }
+
+
   private Set<Hashtag> renewHashtagsFromContent(String content) {
     Set<String> hashtagNamesInContent = hashtagService.parseHashtagNames(content);
     Set<Hashtag> hashtags = hashtagService.findHashtagsByNames(hashtagNamesInContent);
@@ -128,4 +145,5 @@ public class ArticleService {
 
     return hashtags;
   }
+
 }
