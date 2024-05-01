@@ -1,6 +1,8 @@
 package com.campus.projectboard.controller;
 
+import com.campus.projectboard.domain.constant.FormStatus;
 import com.campus.projectboard.domain.constant.SearchType;
+import com.campus.projectboard.dto.request.ArticleRequest;
 import com.campus.projectboard.dto.response.ArticleResponse;
 import com.campus.projectboard.dto.response.ArticleWithCommentsResponse;
 import com.campus.projectboard.service.ArticleService;
@@ -11,10 +13,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -73,4 +77,15 @@ public class ArticleController {
 
     return "articles/search-hashtag";
   }
+
+  @GetMapping("/form")
+  public String articleForm(ModelMap map) {
+    map.addAttribute("formStatus", FormStatus.CREATE);
+
+    return "articles/form";
+  }
+  
+
+
+
 }
