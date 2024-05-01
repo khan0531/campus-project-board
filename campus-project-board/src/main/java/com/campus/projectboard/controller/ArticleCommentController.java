@@ -16,6 +16,19 @@ public class ArticleCommentController {
 
     private final ArticleCommentService articleCommentService;
 
+    @PostMapping("/new")
+    public String postNewArticleComment(
+        ArticleCommentRequest articleCommentRequest
+    ) {
+        return "redirect:/articles/" + articleCommentRequest.articleId();
+    }
 
+    @PostMapping("/{commentId}/delete")
+    public String deleteArticleComment(
+        @PathVariable Long commentId,
+        Long articleId
+    ) {
+        return "redirect:/articles/" + articleId;
+    }
 
 }
