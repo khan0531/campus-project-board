@@ -166,23 +166,23 @@ class ArticleControllerTest {
         "content",
         Set.of(HashtagDto.of("java")),
         LocalDateTime.now(),
-        "uno",
+        "han",
         LocalDateTime.now(),
-        "uno"
+        "han"
     );
   }
 
   private UserAccountDto createUserAccountDto() {
     return UserAccountDto.of(
-        "uno",
+        "han",
         "pw",
-        "uno@mail.com",
-        "Uno",
+        "han@mail.com",
+        "han",
         "memo",
         LocalDateTime.now(),
-        "uno",
+        "han",
         LocalDateTime.now(),
-        "uno"
+        "han"
     );
   }
 
