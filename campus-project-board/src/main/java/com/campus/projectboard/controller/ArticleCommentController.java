@@ -1,6 +1,7 @@
 package com.campus.projectboard.controller;
 
 import com.campus.projectboard.dto.request.ArticleCommentRequest;
+import com.campus.projectboard.dto.security.BoardPrincipal;
 import com.campus.projectboard.service.ArticleCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,16 +19,22 @@ public class ArticleCommentController {
 
     @PostMapping("/new")
     public String postNewArticleComment(
+        @AuthenticationPrincipal BoardPrincipal boardPrincipal,
         ArticleCommentRequest articleCommentRequest
     ) {
+        articleCommentService.saveArticleComment(articleCommentRequest.toDto(boardPrincipal.toDto()));
+
         return "redirect:/articles/" + articleCommentRequest.articleId();
     }
 
     @PostMapping("/{commentId}/delete")
     public String deleteArticleComment(
         @PathVariable Long commentId,
+        @AuthenticationPrincipal BoardPrincipal boardPrincipal,
         Long articleId
     ) {
+        articleCommentService.deleteArticleComment(commentId, boardPrincipal.getUsername());
+
         return "redirect:/articles/" + articleId;
     }
 
