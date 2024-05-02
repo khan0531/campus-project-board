@@ -129,7 +129,6 @@ public class ArticleService {
     return hashtagRepository.findAllHashtagNames(); // TODO: HashtagService 로 이동을 고려해보자.
   }
 
-
   private Set<Hashtag> renewHashtagsFromContent(String content) {
     Set<String> hashtagNamesInContent = hashtagService.parseHashtagNames(content);
     Set<Hashtag> hashtags = hashtagService.findHashtagsByNames(hashtagNamesInContent);
@@ -142,8 +141,6 @@ public class ArticleService {
         hashtags.add(Hashtag.of(newHashtagName));
       }
     });
-
     return hashtags;
   }
-
 }
